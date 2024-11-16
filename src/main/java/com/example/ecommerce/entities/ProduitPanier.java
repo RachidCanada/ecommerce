@@ -1,52 +1,78 @@
 package com.example.ecommerce.entities;
 
-import jakarta.persistence.*;
+import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
-public class ProduitPanier {
-    @Id
+public class ProduitPanier implements Serializable {
+	
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+	
+	private int quantite;
+	
+	@ManyToOne
+    @JoinColumn(name = "id_produit", referencedColumnName = "id")
+	@JsonBackReference
+	private Produit	produit;
+	
+	@ManyToOne
+    @JoinColumn(name = "id_panier", referencedColumnName = "id")
+	@JsonBackReference
+	private Panier	panier;
 
-    @ManyToOne
-    private Produit produit;
+	public Long getId() {
+		return id;
+	}
 
-    private int quantite;
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    @ManyToOne
-    @JoinColumn(name = "panier_id")
-    private Panier panier;
+	public int getQuantite() {
+		return quantite;
+	}
 
-    // Getters et Setters
-    public Long getId() {
-        return id;
-    }
+	public void setQuantite(int quantite) {
+		this.quantite = quantite;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Produit getProduit() {
+		return produit;
+	}
 
-    public Produit getProduit() {
-        return produit;
-    }
+	public void setProduit(Produit produit) {
+		this.produit = produit;
+	}
 
-    public void setProduit(Produit produit) {
-        this.produit = produit;
-    }
+	public Panier getPanier() {
+		return panier;
+	}
 
-    public int getQuantite() {
-        return quantite;
-    }
+	public void setPanier(Panier panier) {
+		this.panier = panier;
+	}
 
-    public void setQuantite(int quantite) {
-        this.quantite = quantite;
-    }
+	public ProduitPanier(Long id, int quantite, Produit produit, Panier panier) {
+		super();
+		this.id = id;
+		this.quantite = quantite;
+		this.produit = produit;
+		this.panier = panier;
+	}
 
-    public Panier getPanier() {
-        return panier;
-    }
-
-    public void setPanier(Panier panier) {
-        this.panier = panier;
-    }
+	public ProduitPanier() {
+		super();
+	}
+	
+	
 }
